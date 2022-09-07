@@ -1,7 +1,7 @@
 package com.example.cleanarchitectureapp.domain
 
-class GetShopItemUseCase {
+class GetShopItemUseCase(private val shopListRepository: ShopListRepository) {
     fun getShopItem(position: Int): ShopItem {
-        TODO()
+        return shopListRepository.getShopItem(position)
     }
 }
