@@ -1,6 +1,6 @@
 package com.example.cleanarchitectureapp.domain
 
-class ShopItem (
+data class ShopItem (
     val name: String,
     val count: Int,
     val enabled: Boolean,
