@@ -7,12 +7,13 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.cleanarchitectureapp.R
 import com.example.cleanarchitectureapp.databinding.ActivityShopItemBinding
 import com.example.cleanarchitectureapp.domain.ShopItem
 
 class ShopItemActivity : AppCompatActivity() {
     private lateinit var binding: ActivityShopItemBinding
-    private lateinit var viewModel: ShopItemViewModel
+    //private lateinit var viewModel: ShopItemViewModel
     private var screenMode = MODE_UNKNOWN
     private var shopItemId = ShopItem.UNDEFINED_ID
 
@@ -21,14 +22,14 @@ class ShopItemActivity : AppCompatActivity() {
         binding = ActivityShopItemBinding.inflate(layoutInflater)
         setContentView(binding.root)
         parseIntent()
-        binding.tilName.error = ""
-        viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
         launchRightMode()
+        /*binding.tilName.error = ""
+        viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
         addTextChangeListeners()
-        observeViewModel()
+        observeViewModel()*/
     }
 
-    private fun observeViewModel() {
+    /*private fun observeViewModel() {
         viewModel.errorInputCount.observe(this) {
             val message = if (it) {
                 "Fill count"
@@ -49,15 +50,20 @@ class ShopItemActivity : AppCompatActivity() {
         viewModel.shouldCloseScreen.observe(this) {
             finish()
         }
-    }
+    } */
 
     private fun launchRightMode() {
-        when (screenMode) {
-            MODE_EDIT -> launchEditMode()
-            MODE_ADD -> launchAddMode()
+        val fragment = when (screenMode) {
+            MODE_EDIT -> ShopItemFragment.newInstanceEditItem(shopItemId)
+            MODE_ADD -> ShopItemFragment.newInstanceAddItem()
+            else -> throw RuntimeException("Unknown screen mode $screenMode")
         }
+        supportFragmentManager.beginTransaction()
+            .add(R.id.shop_item_container, fragment)
+            .commit()
     }
 
+    /*
     private fun addTextChangeListeners() {
         binding.etName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -107,7 +113,7 @@ class ShopItemActivity : AppCompatActivity() {
             viewModel.addShopItem(binding.etName.text?.toString(), binding.etCount.text?.toString())
         }
     }
-
+*/
 
     private fun parseIntent() {
         if (!intent.hasExtra(EXTRA_SCREEN_MODE)) {
