@@ -22,7 +22,9 @@ class ShopItemActivity : AppCompatActivity() {
         binding = ActivityShopItemBinding.inflate(layoutInflater)
         setContentView(binding.root)
         parseIntent()
-        launchRightMode()
+        if(savedInstanceState == null) {
+            launchRightMode()
+        }
         /*binding.tilName.error = ""
         viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
         addTextChangeListeners()
@@ -59,7 +61,7 @@ class ShopItemActivity : AppCompatActivity() {
             else -> throw RuntimeException("Unknown screen mode $screenMode")
         }
         supportFragmentManager.beginTransaction()
-            .add(R.id.shop_item_container, fragment)
+            .replace(R.id.shop_item_container, fragment)
             .commit()
     }
 
