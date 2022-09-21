@@ -11,7 +11,7 @@ import com.example.cleanarchitectureapp.R
 import com.example.cleanarchitectureapp.databinding.ActivityShopItemBinding
 import com.example.cleanarchitectureapp.domain.ShopItem
 
-class ShopItemActivity : AppCompatActivity() {
+class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
     private lateinit var binding: ActivityShopItemBinding
     //private lateinit var viewModel: ShopItemViewModel
     private var screenMode = MODE_UNKNOWN
@@ -29,6 +29,10 @@ class ShopItemActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
         addTextChangeListeners()
         observeViewModel()*/
+    }
+
+    override fun onEditingFinished() {
+        finish()
     }
 
     /*private fun observeViewModel() {
